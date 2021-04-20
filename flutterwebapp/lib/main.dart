@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterwebapp/Screens/RootScreen.dart';
+import 'package:flutterwebapp/Screens/UserThoughts.dart';
 
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.deepPurple,
       ),
-      home: RootScreen(),
+      home: UserThoughts(),
     );
   }
 }

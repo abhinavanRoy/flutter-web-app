@@ -33,6 +33,7 @@ class _UserThoughtsState extends State<UserThoughts> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    bool isSmall = width < 490;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
@@ -63,10 +64,10 @@ class _UserThoughtsState extends State<UserThoughts> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 100,
+                height: 80,
               ),
               SizedBox(
-                width: width / 3.5,
+                width: 400,
                 child: TextField(
                   controller: textEditingController,
                   decoration: InputDecoration(
@@ -82,21 +83,26 @@ class _UserThoughtsState extends State<UserThoughts> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 30,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  addItem();
-                },
-                child: Text("Add"),
+              SizedBox(
+                width: 200,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                    addItem();
+                  },
+                  child: Text("Add"),
+                ),
               ),
               SizedBox(
                 height: 50,
               ),
+              isSmall ?
               Container(
                 color: Colors.deepPurpleAccent,
                 height: height / 1.79,
-                width: width / 2,
+                width: height/0.9,
                 child: Card(
                   elevation: 10,
                   color: Colors.indigo,
@@ -106,7 +112,47 @@ class _UserThoughtsState extends State<UserThoughts> {
                         itemCount: listItem.length,
                         itemBuilder: (context, int index) {
                           return Container(
-                          height: 50,
+                              height: height/5,
+                              width: 70,
+                              color: Colors.brown,
+
+                              child: Column(
+                                children: [
+                                  Text(listItem[index],
+                                  style: TextStyle(
+                                    fontSize: 19.0,
+                                  ),),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text("$day",
+                                    style: TextStyle(
+                                      fontSize: 19.0,
+                                    ),
+                                  ),
+                                ],
+                              )
+                          );
+                        }),
+                  ),
+                ),
+              )
+
+
+              : Container(
+                color: Colors.deepPurpleAccent,
+                height: height / 1.79,
+                width: 700,
+                child: Card(
+                  elevation: 10,
+                  color: Colors.indigo,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                        itemCount: listItem.length,
+                        itemBuilder: (context, int index) {
+                          return Container(
+                          height: 70,
                           width: 70,
                           child: ListTile(
                             title: Text(listItem[index]),
