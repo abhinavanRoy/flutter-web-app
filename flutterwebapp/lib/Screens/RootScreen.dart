@@ -11,9 +11,10 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    bool isSmall = width <356;
     return Scaffold(
       backgroundColor: Colors.deepPurpleAccent,
-      body: Center(
+      body: isSmall? Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -22,8 +23,73 @@ class _RootScreenState extends State<RootScreen> {
                 height: 100,
               ),
               Container(
-                height: height / 3,
-                width: width / 4,
+                height: 250,
+                width:  400,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 15,
+                  color: Colors.white,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "WELCOME TO THOUGHT KEEPER",
+                          style: TextStyle(
+                            color: Colors.deepPurpleAccent,
+                            fontSize: width / 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Your Thoughts in one place ",
+                        style: TextStyle(
+                          color: Colors.deepPurpleAccent,
+                          fontSize: width/17.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(_createRoute());
+                        },
+                        child: Text(
+                          "Google sign in",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      
+      
+      
+      
+      
+      :Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 100,
+              ),
+              Container(
+                height: 250,
+                width:  400,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
