@@ -139,12 +139,13 @@ class _RootScreenState extends State<RootScreen> {
                           print(message);
 
                           if(!success){
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not sign you in!")));
                             appProvider.changeLoading();
                           }
                           else{
                             appProvider.changeLoading();
                             Navigator.of(context).pushReplacement(_createRoute());
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully Signed in")));
 
                           }
 

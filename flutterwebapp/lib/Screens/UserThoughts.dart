@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp/Screens/RootScreen.dart';
+import 'package:flutterwebapp/helper/constants.dart';
+import 'package:flutterwebapp/provider/auth.dart';
 
 class UserThoughts extends StatefulWidget {
   @override
@@ -47,6 +49,7 @@ class _UserThoughtsState extends State<UserThoughts> {
             padding: const EdgeInsets.all(8.0),
               child: IconButton(
                 onPressed: (){
+                  auth.signOut();
                   Navigator.of(context).pushReplacement(_createRoutetoroot());
                 },
                 icon: const Icon(Icons.login_outlined),
