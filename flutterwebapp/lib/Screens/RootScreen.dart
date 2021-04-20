@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp/Screens/UserThoughts.dart';
-
+import 'package:flutterwebapp/provider/app.dart';
+import 'package:flutterwebapp/provider/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:nb_utils/nb_utils.dart';
 class RootScreen extends StatefulWidget {
   @override
   _RootScreenState createState() => _RootScreenState();
@@ -9,6 +13,9 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    final AppProvider appProvider = Provider.of<AppProvider>(context);
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     bool isSmall = width <356;
@@ -124,8 +131,25 @@ class _RootScreenState extends State<RootScreen> {
                         height: 50,
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(_createRoute());
+                        onPressed: () async {
+                          appProvider.changeLoading();
+                          Map result = await authProvider.signInWithGoogle();
+                          bool success = result['success'];
+                          String message = result['message'];
+                          print(message);
+
+                          if(!success){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+                            appProvider.changeLoading();
+                          }
+                          else{
+                            appProvider.changeLoading();
+                            Navigator.of(context).pushReplacement(_createRoute());
+
+                          }
+
+
+
                         },
                         child: Text(
                           "Google sign in",
