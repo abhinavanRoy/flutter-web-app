@@ -105,7 +105,7 @@ class _UserThoughtsState extends State<UserThoughts> {
                 child: ElevatedButton(
                   onPressed: () {
                     addItem();
-                    firebaseFirestore.collection("users").doc()
+                   
                   },
                   child: Text("Add"),
                 ),
