@@ -100,14 +100,23 @@ class _UserThoughtsState extends State<UserThoughts> {
                 height: 30,
               ),
               SizedBox(
-                width: 200,
-                height: 30,
+                width: 230,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    addItem();
-                   
+                    if(textEditingController.text.isEmpty){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Field cannot be empty!")));
+
+                    }
+                    else {
+                      addItem();
+                    }
                   },
-                  child: Text("Add"),
+                  child: Text("Add",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),),
                 ),
               ),
               SizedBox(
@@ -206,4 +215,27 @@ class _UserThoughtsState extends State<UserThoughts> {
     );
   }
 
+}
+
+
+Widget _buildCheckBoxPopupDialog(BuildContext context) {
+  return new AlertDialog(
+    title: const Text('Entry error!'),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("Fields cannot be empty"),
+      ],
+    ),
+    actions: <Widget>[
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Close'),
+      ),
+    ],
+  );
 }
