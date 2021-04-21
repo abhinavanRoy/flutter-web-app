@@ -51,6 +51,8 @@ class  AuthProvider with ChangeNotifier{
         if(!await _userServices.doesUserExist(_user.uid)){
           _userServices.createUser(
             id: _user.uid,name: _user.displayName,photo: _user.photoURL);
+          print(_user.displayName);
+
         await initializeUserModel();
 
         }else{
@@ -60,7 +62,7 @@ class  AuthProvider with ChangeNotifier{
         }
 
       });
-      return {'success': true, 'message': 'success' };
+      return {'success': true, 'message': 'success','name': _user.displayName };
     }catch(e){
       notifyListeners();
       return {'success': false, 'message': e.toString()};

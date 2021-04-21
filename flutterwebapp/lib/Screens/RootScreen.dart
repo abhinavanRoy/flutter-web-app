@@ -1,18 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutterwebapp/Screens/UserThoughts.dart';
 import 'package:flutterwebapp/provider/app.dart';
 import 'package:flutterwebapp/provider/auth.dart';
 import 'package:provider/provider.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:flutterwebapp/services/user.dart';
+
 class RootScreen extends StatefulWidget {
   @override
   _RootScreenState createState() => _RootScreenState();
 }
 
 class _RootScreenState extends State<RootScreen> {
+  User usero;
   @override
   Widget build(BuildContext context) {
+
     final AuthProvider authProvider = Provider.of<AuthProvider>(context);
     final AppProvider appProvider = Provider.of<AppProvider>(context);
 
@@ -65,13 +71,35 @@ class _RootScreenState extends State<RootScreen> {
                       SizedBox(
                         height: 50,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(_createRoute());
+                      SignInButton(
+                        Buttons.Google,
+                        onPressed: () async{
+
+
+                          appProvider.changeLoading();
+                          Map result = await authProvider.signInWithGoogle();
+                          bool success = result['success'];
+                          String message = result['message'];
+                          String name = result['name'];
+
+                          print(name);
+                          print(message);
+
+
+                          if(!success){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not sign you in!")));
+                            appProvider.changeLoading();
+                            print(message);
+                          }
+                          else{
+                            appProvider.changeLoading();
+                            Navigator.of(context).pushReplacement(_createRoute());
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully Signed in")));
+
+                          }
+
                         },
-                        child: Text(
-                          "Google sign in",
-                        ),
+
                       ),
                     ],
                   ),
@@ -130,32 +158,35 @@ class _RootScreenState extends State<RootScreen> {
                       SizedBox(
                         height: 50,
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          appProvider.changeLoading();
-                          Map result = await authProvider.signInWithGoogle();
-                          bool success = result['success'];
-                          String message = result['message'];
-                          print(message);
-
-                          if(!success){
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not sign you in!")));
-                            appProvider.changeLoading();
-                          }
-                          else{
-                            appProvider.changeLoading();
-                            Navigator.of(context).pushReplacement(_createRoute());
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully Signed in")));
-
-                          }
+                     SignInButton(
+                       Buttons.Google,
+                       onPressed: () async{
 
 
+                           appProvider.changeLoading();
+                           Map result = await authProvider.signInWithGoogle();
+                           bool success = result['success'];
+                           String message = result['message'];
+                           print(message);
 
-                        },
-                        child: Text(
-                          "Google sign in",
-                        ),
-                      ),
+
+                           if(!success){
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not sign you in!")));
+                             appProvider.changeLoading();
+                             print(message);
+                           }
+                           else{
+                             appProvider.changeLoading();
+                             Navigator.of(context).pushReplacement(_createRoute());
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully Signed in")));
+
+                           }
+
+                       },
+
+                     ),
+
+
                     ],
                   ),
                 ),

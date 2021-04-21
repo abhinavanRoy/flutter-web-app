@@ -1,16 +1,21 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp/Screens/RootScreen.dart';
 import 'package:flutterwebapp/helper/constants.dart';
-import 'package:flutterwebapp/provider/auth.dart';
+
 
 class UserThoughts extends StatefulWidget {
+
+
   @override
   _UserThoughtsState createState() => _UserThoughtsState();
 }
 
 class _UserThoughtsState extends State<UserThoughts> {
+
+
+
+
+
   var now = DateTime.now();
   String day = "";
 
@@ -23,18 +28,22 @@ class _UserThoughtsState extends State<UserThoughts> {
           now.month.toString() +
           "." +
           now.year.toString();
-
-
-
     });
   }
 
   TextEditingController textEditingController = TextEditingController();
   List<String> listItem = List<String>.empty(growable: true);
+
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
     bool isSmall = width < 490;
     return Scaffold(
       appBar: AppBar(
@@ -43,19 +52,21 @@ class _UserThoughtsState extends State<UserThoughts> {
         centerTitle: true,
 
 
-        actions:<Widget> [
+        actions: <Widget>[
 
           Padding(
             padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                onPressed: (){
-                  auth.signOut();
-                  Navigator.of(context).pushReplacement(_createRoutetoroot());
-                },
-                icon: const Icon(Icons.login_outlined),
-                tooltip: 'Logout',
-              ),
+            child: IconButton(
+              onPressed: () {
+                auth.signOut();
+                Navigator.of(context).pushReplacement(_createRoutetoroot());
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Successfully Signed out")));
+              },
+              icon: const Icon(Icons.login_outlined),
+              tooltip: 'Logout',
             ),
+          ),
 
         ],
       ),
@@ -94,6 +105,7 @@ class _UserThoughtsState extends State<UserThoughts> {
                 child: ElevatedButton(
                   onPressed: () {
                     addItem();
+                    firebaseFirestore.collection("users").doc()
                   },
                   child: Text("Add"),
                 ),
@@ -105,7 +117,7 @@ class _UserThoughtsState extends State<UserThoughts> {
               Container(
                 color: Colors.deepPurpleAccent,
                 height: height / 1.79,
-                width: height/0.9,
+                width: height / 0.9,
                 child: Card(
                   elevation: 10,
                   color: Colors.indigo,
@@ -115,16 +127,16 @@ class _UserThoughtsState extends State<UserThoughts> {
                         itemCount: listItem.length,
                         itemBuilder: (context, int index) {
                           return Container(
-                              height: height/5,
+                              height: height / 8,
                               width: 70,
-                              color: Colors.brown,
+
 
                               child: Column(
                                 children: [
                                   Text(listItem[index],
-                                  style: TextStyle(
-                                    fontSize: 19.0,
-                                  ),),
+                                    style: TextStyle(
+                                      fontSize: 19.0,
+                                    ),),
                                   SizedBox(
                                     height: 5.0,
                                   ),
@@ -142,7 +154,7 @@ class _UserThoughtsState extends State<UserThoughts> {
               )
 
 
-              : Container(
+                  : Container(
                 color: Colors.deepPurpleAccent,
                 height: height / 1.79,
                 width: 700,
@@ -155,24 +167,26 @@ class _UserThoughtsState extends State<UserThoughts> {
                         itemCount: listItem.length,
                         itemBuilder: (context, int index) {
                           return Container(
-                          height: 70,
-                          width: 70,
-                          child: ListTile(
-                            title: Text(listItem[index]),
-                            trailing: Text("$day"),
+                              height: height/8,
+                              width: 70,
+                              child: ListTile(
+                                title: Text(listItem[index]),
+                                trailing: Text("$day"),
 
-                          )
-                            );
+                              )
+                          );
                         }),
                   ),
                 ),
               ),
+
             ],
           ),
         ),
       ),
     );
   }
+
   Route _createRoutetoroot() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => RootScreen(),
@@ -191,4 +205,5 @@ class _UserThoughtsState extends State<UserThoughts> {
       },
     );
   }
+
 }
